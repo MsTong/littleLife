@@ -1,0 +1,22 @@
+{
+	"name": "littlelife",
+	"version": "1.0.0",
+	"description": "",
+	"scripts": {
+		"test": ""
+	},
+	"dependencies": {
+		"koa": "^2.5.1",
+		"koa-router": "^7.4.0"
+	},
+	"devDependencies": {
+		"koa-body": "^2.5.0",
+		"mysql": "^2.15.0",
+		"sequelize": "^4.37.10"
+	},
+	"engines": {
+		"node": ">=8.0.0"
+	},
+	"author": "tongling",
+	"license": "ISC"
+}
