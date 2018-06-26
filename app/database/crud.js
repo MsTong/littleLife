@@ -162,3 +162,11 @@ const setData = (obj) => {
         return '';
     }
 };
+
+
+module.exports = {
+    Insert,
+    Delete,
+    Update,
+    Query
+}
