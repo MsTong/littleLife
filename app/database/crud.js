@@ -2,12 +2,12 @@ const Pool = require('./db.js');
 
 let mysql = new Promise((resolve, reject) => {
     Pool.getConnection(function (err, connection) {
+        connection.release();
         if (err) {
             reject(err);
         } else {
             resolve(connection);
         }
-        connection.release();
     })
 });
 
