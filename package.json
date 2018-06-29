@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "",
 	"scripts": {
-		"test": ""
+		"start": "pm2 restart littlelife"
 	},
 	"dependencies": {
 		"koa": "^2.5.1",
