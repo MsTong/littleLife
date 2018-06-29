@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const config = require('../../config/config.default.js');
 
 //创建一个有效连接池
@@ -7,8 +7,7 @@ const Pool = mysql.createPool({
     user: config.mysql.user,
     password: config.mysql.password,
     database: config.mysql.database,
-    port: config.mysql.port,
-    useConnectionPooling: true
+    port: config.mysql.port
 });
 
 //从连接池取出一个连接检验连接池是都连接成功
