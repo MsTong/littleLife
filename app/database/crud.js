@@ -2,7 +2,6 @@ const Pool = require('./db.js');
 
 let mysql = new Promise((resolve, reject) => {
     Pool.getConnection(function (err, connection) {
-        connection.release();
         if (err) {
             reject(err);
         } else {
@@ -23,6 +22,7 @@ const Insert = (Table, DATA) => {
                 } else {
                     resolve(results);
                 }
+                db.release();
             })
         })
     });
@@ -41,6 +41,7 @@ const Delete = (Table, Condition = {}) => {
                 } else {
                     resolve(results);
                 }
+                db.release();
             })
         })
     });
@@ -58,6 +59,7 @@ const Update = (Table, DATA, Condition = {}) => {
                 } else {
                     resolve(results);
                 }
+                db.release();
             })
         })
     });
@@ -75,6 +77,7 @@ const Query = {
                     } else {
                         resolve(results);
                     }
+                    db.release();
                 })
             })
         });
@@ -90,6 +93,7 @@ const Query = {
                     } else {
                         resolve(results);
                     }
+                    db.release();
                 })
             })
         });
