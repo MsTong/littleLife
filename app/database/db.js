@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+const mysql = require('mysql');
 const config = require('../../config/config.default.js');
 
 //创建一个有效连接池

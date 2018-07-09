@@ -1,102 +1,113 @@
 const Pool = require('./db.js');
 
-let mysql = new Promise((resolve, reject) => {
-    Pool.getConnection(function (err, connection) {
-        if (err) {
-            reject(err);
-        } else {
-            resolve(connection);
-        }
-    })
-});
-
 //MYSQL-增加操作封装
 const Insert = (Table, DATA) => {
     return new Promise((resolve, reject) => {
-        mysql.then((db) => {
-            let sql = `INSERT INTO ${Table} ${inData(DATA)}`;
-            console.log(sql);
-            db.query(sql, (error, results) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(results);
-                }
-                db.release();
-            })
+        let sql = `INSERT INTO ${Table} ${inData(DATA)}`;
+        console.log(sql);
+        Pool.getConnection(function (err, connection) {
+            if (err) {
+                reject(err);
+            } else {
+                connection.query(sql, (error, results) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(results);
+                    }
+                    connection.release();
+                })
+            }
         })
-    });
+    })
+
 };
 
 
 //MYSQL-删除操作封装
 const Delete = (Table, Condition = {}) => {
     return new Promise((resolve, reject) => {
-        mysql.then((db) => {
-            let sql = `DELETE FROM ${Table}${condition(Condition)}`;
-            console.log(sql);
-            db.query(sql, (error, results) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(results);
-                }
-                db.release();
-            })
+        let sql = `DELETE FROM ${Table}${condition(Condition)}`;
+        console.log(sql);
+        Pool.getConnection(function (err, connection) {
+            if (err) {
+                reject(err);
+            } else {
+                connection.query(sql, (error, results) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(results);
+                    }
+                    connection.release();
+                })
+            }
         })
-    });
+    })
 };
 
 //MYSQL-修改操作封装
 const Update = (Table, DATA, Condition = {}) => {
     return new Promise((resolve, reject) => {
-        mysql.then((db) => {
-            let sql = `UPDATE ${Table} SET ${setData(DATA)}${condition(Condition)}`;
-            console.log(sql);
-            db.query(sql, (error, results) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(results);
-                }
-                db.release();
-            })
+        let sql = `UPDATE ${Table} SET ${setData(DATA)}${condition(Condition)}`;
+        console.log(sql);
+        Pool.getConnection(function (err, connection) {
+            if (err) {
+                reject(err);
+            } else {
+                connection.query(sql, (error, results) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(results);
+                    }
+                    connection.release();
+                })
+            }
         })
-    });
+    })
 };
 
 //MYSQL-查询操作封装
 const Query = {
-    all(Table, Sort = {}){
+    all(Table, Sort = {}) {
         return new Promise((resolve, reject) => {
-            mysql.then((db) => {
-                let sql = `SELECT * FROM ${Table}${sort(Sort)}`;
-                db.query(sql, (error, results) => {
-                    if (error) {
-                        reject(error);
-                    } else {
-                        resolve(results);
-                    }
-                    db.release();
-                })
+            let sql = `SELECT * FROM ${Table}${sort(Sort)}`;
+            Pool.getConnection(function (err, connection) {
+                if (err) {
+                    reject(err);
+                } else {
+                    connection.query(sql, (error, results) => {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(results);
+                        }
+                        connection.release();
+                    })
+                }
             })
-        });
+        })
     },
-    where(Table, Condition = {}, Sort = {}){
+    where(Table, Condition = {}, Sort = {}) {
         return new Promise((resolve, reject) => {
-            mysql.then((db) => {
-                let sql = `SELECT * FROM ${Table}${condition(Condition)}${sort(Sort)}`;
-                console.log(sql);
-                db.query(sql, (error, results) => {
-                    if (error) {
-                        reject(error);
-                    } else {
-                        resolve(results);
-                    }
-                    db.release();
-                })
+            let sql = `SELECT * FROM ${Table}${condition(Condition)}${sort(Sort)}`;
+            console.log(sql);
+            Pool.getConnection(function (err, connection) {
+                if (err) {
+                    reject(err);
+                } else {
+                    connection.query(sql, (error, results) => {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            resolve(results);
+                        }
+                        connection.release();
+                    })
+                }
             })
-        });
+        })
     }
 };
 
@@ -114,14 +125,12 @@ const sort = (obj) => {
         for (key in obj) {
             if (!obj[key]) {
                 tmp += ` ${key} DESC,`
-            }
-            else {
+            } else {
                 tmp += ` ${key} ASC,`
             }
         }
         return tmp.substring(0, tmp.length - 1) + ';';
-    }
-    else {
+    } else {
         return ';';
     }
 };
@@ -133,8 +142,7 @@ const condition = (obj) => {
             tmp += ` ${key} = '${obj[key]}' AND`
         }
         return tmp.substring(0, tmp.length - 3);
-    }
-    else {
+    } else {
         return '';
     }
 };
@@ -148,8 +156,7 @@ const inData = (obj) => {
             tmp2 += ` '${obj[key]}',`
         }
         return tmp1.substring(0, tmp1.length - 1) + ' ) values ' + tmp2.substring(0, tmp2.length - 1) + ' );';
-    }
-    else {
+    } else {
         return '';
     }
 };
@@ -161,8 +168,7 @@ const setData = (obj) => {
             tmp += ` ${key} = '${obj[key]}',`
         }
         return tmp.substring(0, tmp.length - 1);
-    }
-    else {
+    } else {
         return '';
     }
 };
