@@ -10,7 +10,8 @@
 		"koa-body": "^2.5.0",
 		"koa-router": "^7.4.0",
 		"koa-session": "^5.8.1",
-		"mysql": "^2.15.0"
+		"mysql": "^2.15.0",
+		"qcloudsms_js": "^0.1.1"
 	},
 	"devDependencies": {},
 	"engines": {
