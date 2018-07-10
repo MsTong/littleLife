@@ -10,8 +10,24 @@ const Pool = mysql.createPool({
     port: config.mysql.port
 });
 
+Pool.on('enqueue', function () {
+    console.log('Waiting for available connection slot -----enqueue'+ new Date());
+});
+
+Pool.on('connection', function () {
+    console.log('Waiting for aconnection------connection'+ new Date());
+});
+
+Pool.on('enqueue', function () {
+    console.log('Waiting for available connection slot-------enqueue'+ new Date());
+});
+
+Pool.on('release', function (connection) {
+    console.log('Connection %d released-------release', connection.threadId, new Date());
+});
+
 //从连接池取出一个连接检验连接池是都连接成功
-Pool.getConnection(function(err,connection){
+Pool.getConnection(function (err, connection) {
     if (err) {
         console.log('----------------------很遗憾,MYSQL数据库连接失败!----------------------');
         console.error(err);
